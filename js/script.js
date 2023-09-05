@@ -5,16 +5,24 @@ const INPUT = INPUT_BOX.querySelector("textarea");
 const INPUT_INITIAL_SIZE = INPUT.scrollHeight;
 const SEND_BTN = INPUT_BOX.querySelector("button");
 const CHAT_BOX = document.querySelector("#chat-box");
+let API_KEY = localStorage.getItem("open-ai-api-key");
+
+async function getKeyOfApi() {
+  await new Promise((resolve) => {
+    API_KEY = prompt("Por favor, informe a chave da API:\nPara mais informações, acesse https://platform.openai.com/");
+    resolve(API_KEY);
+  });
+  localStorage.setItem("open-ai-api-key", API_KEY);
+}
 
 // Função utilizada para mostrar e ocultar o container/chat
 const toggleChat = () => {
   document.body.classList.toggle("show-container");
 };
 
-// Função utilizada para enviar a requisação à API da OPEN AI e usar a resposta no CHAT 
+// Função utilizada para enviar a requisação à API da OPEN AI e usar a resposta no CHAT
 const generateResponse = async (INPUT_VALUE, LAST_BOT_MESSAGE) => {
   const API_URL = "https://api.openai.com/v1/chat/completions";
-  const API_KEY = "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";
   const API_OPTIONS = {
     method: "POST",
     headers: {
@@ -87,3 +95,7 @@ INPUT.addEventListener("input", () => {
   INPUT.style.height = `${INPUT_INITIAL_SIZE}px`;
   INPUT.style.height = `${INPUT.scrollHeight}px`;
 });
+
+if (!API_KEY || API_KEY === "null") {
+  getKeyOfApi();
+}
