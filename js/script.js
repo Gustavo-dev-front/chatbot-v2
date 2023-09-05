@@ -99,3 +99,6 @@ INPUT.addEventListener("input", () => {
 if (!API_KEY || API_KEY === "null") {
   getKeyOfApi();
 }
+
+INPUT.value = "Olá!";
+enterMessage();
